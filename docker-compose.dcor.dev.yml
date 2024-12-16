@@ -22,7 +22,8 @@ services:
       - solr
       - redis
       - minio
-    hostname: dcor-docker-test
+    # This is defined as a docker resource in `dcor_control`
+    hostname: dcor-dev-docker
     ports:
       - "0.0.0.0:${CKAN_PORT_HOST}:5000"
     volumes:
