@@ -24,10 +24,6 @@ RUN chown -R ckan:ckan-sys /var/lib/ckan/storage/uploads/admin
 
 RUN mkdir -p /var/lib/ckan/i18n && chown -R ckan:ckan-sys /var/lib/ckan/i18n
 
-# Copy site_dcor-docker configuration dir
-RUN mkdir -p ${APP_DIR}/site_dcor-docker
-COPY --chown=ckan-sys:ckan-sys site_dcor-docker/*  ${APP_DIR}/site_dcor-docker
-
 # Copy custom initialization scripts
 COPY --chown=ckan-sys:ckan-sys docker-entrypoint.d/* /docker-entrypoint.d/
 
