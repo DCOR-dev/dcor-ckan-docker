@@ -14,15 +14,18 @@ RUN mkdir /srv/app/.cache && chown -R ckan:ckan-sys /srv/app/.cache
 ENV PATH="/srv/app/.local/bin:${PATH}"
 
 # dcor stores configuration keys here
-RUN mkdir /srv/app/.config && chown -R ckan:ckan-sys /srv/app/.config
+RUN mkdir /srv/app/.config && \
+    chown -R ckan:ckan-sys /srv/app/.config
 
-# dcor needs to have an access to the "/data" dir
-RUN mkdir /srv/app/data && chown -R ckan:ckan-sys /srv/app/data
+# Create the directory (if it doesn't already exist)
+RUN chown -R ckan:ckan-sys /var/log && \
+    chmod -R 775 /var/log
 
-RUN mkdir -p /var/lib/ckan/storage/uploads/admin
-RUN chown -R ckan:ckan-sys /var/lib/ckan/storage/uploads/admin
+RUN mkdir -p /var/lib/ckan/storage/uploads/admin && \
+    chown -R ckan:ckan-sys /var/lib/ckan/storage/uploads
 
-RUN mkdir -p /var/lib/ckan/i18n && chown -R ckan:ckan-sys /var/lib/ckan/i18n
+RUN mkdir -p /var/lib/ckan/i18n && \
+    chown -R ckan:ckan-sys /var/lib/ckan/i18n
 
 # Copy custom initialization scripts
 COPY --chown=ckan-sys:ckan-sys docker-entrypoint.d/* /docker-entrypoint.d/
