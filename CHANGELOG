@@ -1,5 +1,5 @@
-0.1.0
- - enh: create separate ci files for build and push (#1)
+0.1.1
+ - enh: create separate ci files for build and push (#2)
 0.1.0
  - initial version of dcor-ckan image
  - build and push dcor-ckan image to dockerhub
