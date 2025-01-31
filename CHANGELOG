@@ -1,0 +1,3 @@
+0.1.0
+ - initial version of dcor-ckan image
+ - build and push dcor-ckan image to dockerhub
