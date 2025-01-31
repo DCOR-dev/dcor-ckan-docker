@@ -1,0 +1,52 @@
+name: Build and Push DCOR-CKAN Docker Image
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - '*.*.*'  # This triggers the workflow on tags that follow the X.Y.Z format
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Build and Push NGINX Image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./nginx
+          file: ./nginx/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/dcor-ckan-docker-nginx:${{ github.ref_name  }}
+            ${{ secrets.DOCKER_USERNAME }}/dcor-ckan-docker-nginx:latest
+
+      - name: Build and Push PostgreSQL Image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./postgresql
+          file: ./postgresql/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/dcor-ckan-docker-postgresql:${{ github.ref_name  }}
+            ${{ secrets.DOCKER_USERNAME }}/dcor-ckan-docker-postgresql:latest
+
+      - name: Build and Push CKAN Image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./ckan
+          file: ./ckan/Dockerfile.dev  # Build dcor image from dev
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/dcor-ckan-docker-ckan:${{ github.ref_name  }}
+            ${{ secrets.DOCKER_USERNAME }}/dcor-ckan-docker-ckan:latest
