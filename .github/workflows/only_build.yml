@@ -1,0 +1,41 @@
+name: Build DCOR-CKAN Docker Images
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Build NGINX Image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./nginx
+          file: ./nginx/Dockerfile
+          push: false
+          tags: ${{ secrets.DOCKER_USERNAME }}/dcor-ckan-docker-nginx:test-build-only
+
+      - name: Build PostgreSQL Image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./postgresql
+          file: ./postgresql/Dockerfile
+          push: false
+          tags: ${{ secrets.DOCKER_USERNAME }}/dcor-ckan-docker-postgresql:test-build-only
+
+      - name: Build DCOR-CKAN Image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./ckan
+          file: ./ckan/Dockerfile.dev  # Build dcor image from dev
+          push: false
+          tags: ${{ secrets.DOCKER_USERNAME }}/dcor-ckan-docker-ckan:test-build-only

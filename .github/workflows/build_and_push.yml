@@ -1,11 +1,13 @@
-name: Build and Push DCOR-CKAN Docker Image
+name: Build and Push DCOR-CKAN Docker Images
 
 on:
+  # Trigger the workflow on tag creation in X.Y.Z format,
+  # but only for the master branch
   push:
     branches:
       - master
     tags:
-      - '*.*.*'  # This triggers the workflow on tags that follow the X.Y.Z format
+      - '*.*.*'
 
 jobs:
   build:
@@ -24,6 +26,11 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Set version tag from git tag
+        # Extract version from ref (e.g., refs/tags/0.0.1 => 0.0.1)
+        run: echo "VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
 
@@ -34,7 +41,7 @@ jobs:
           file: ./nginx/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/dcor-ckan-docker-nginx:${{ github.ref_name  }}
+            ${{ secrets.DOCKER_USERNAME }}/dcor-ckan-docker-nginx:${{ env.VERSION }}
             ${{ secrets.DOCKER_USERNAME }}/dcor-ckan-docker-nginx:latest
 
       - name: Build and Push PostgreSQL Image
@@ -44,7 +51,7 @@ jobs:
           file: ./postgresql/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/dcor-ckan-docker-postgresql:${{ github.ref_name  }}
+            ${{ secrets.DOCKER_USERNAME }}/dcor-ckan-docker-postgresql:${{ env.VERSION }}
             ${{ secrets.DOCKER_USERNAME }}/dcor-ckan-docker-postgresql:latest
 
       - name: Build and Push CKAN Image
@@ -54,5 +61,5 @@ jobs:
           file: ./ckan/Dockerfile.dev  # Build dcor image from dev
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/dcor-ckan-docker-ckan:${{ github.ref_name  }}
+            ${{ secrets.DOCKER_USERNAME }}/dcor-ckan-docker-ckan:${{ env.VERSION }}
             ${{ secrets.DOCKER_USERNAME }}/dcor-ckan-docker-ckan:latest
