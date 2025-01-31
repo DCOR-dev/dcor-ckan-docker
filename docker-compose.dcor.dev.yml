@@ -8,8 +8,7 @@ volumes:
   minio_data:
 
 services:
-
-  ckan11-dcor-dev:
+  dcor-ckan-dev:
     build:
       context: ckan/
       dockerfile: Dockerfile.dev
