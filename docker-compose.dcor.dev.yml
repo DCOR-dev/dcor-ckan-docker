@@ -8,12 +8,13 @@ volumes:
   minio_data:
 
 services:
-  dcor-ckan-dev:
+  ckan:
     build:
-      context: ckan/
+      context: ./ckan
       dockerfile: Dockerfile.dev
       args:
         - TZ=${TZ}
+    container_name: dcor_dev
     env_file:
       - .env
     links:
@@ -37,31 +38,29 @@ services:
 
   datapusher:
     image: ckan/ckan-base-datapusher:${DATAPUSHER_VERSION}
+    container_name: datapusher
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:8800"]
 
   db:
     build:
-      context: postgresql/
-    environment:
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - POSTGRES_DB
-      - CKAN_DB_USER
-      - CKAN_DB_PASSWORD
-      - CKAN_DB
-      - DATASTORE_READONLY_USER
-      - DATASTORE_READONLY_PASSWORD
-      - DATASTORE_DB
+      context: ./postgresql
+    container_name: postgres
+    env_file:
+      - .env
     volumes:
       - pg_data:/var/lib/postgresql/data
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
      
   solr:
     image: ckan/ckan-solr:${SOLR_IMAGE_VERSION}
+    container_name: solr
     volumes:
       - solr_data:/var/solr
     restart: unless-stopped
@@ -70,12 +69,14 @@ services:
 
   redis:
     image: redis:${REDIS_VERSION}
+    container_name: redis
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "redis-cli", "-e", "QUIT"]
 
   minio:
     image: minio/minio:latest
+    container_name: minio
     restart: unless-stopped
     environment:
       - MINIO_ROOT_USER
