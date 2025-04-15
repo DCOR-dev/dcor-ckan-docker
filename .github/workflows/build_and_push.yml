@@ -63,3 +63,13 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/dcor-ckan:${{ env.VERSION }}
             ${{ secrets.DOCKER_USERNAME }}/dcor-ckan:latest
+      
+      - name: Build and Push MINIO Image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./minio
+          file: ./minio/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/dcor-minio:${{ env.VERSION }}
+            ${{ secrets.DOCKER_USERNAME }}/dcor-minio:latest
