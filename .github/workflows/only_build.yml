@@ -22,7 +22,7 @@ jobs:
           context: ./nginx
           file: ./nginx/Dockerfile
           push: false
-          tags: ${{ secrets.DOCKER_USERNAME }}/dcor-ckan-docker-nginx:test-build-only
+          tags: ${{ secrets.DOCKER_USERNAME }}/dcor-nginx:test-build-only
 
       - name: Build PostgreSQL Image
         uses: docker/build-push-action@v2
@@ -30,7 +30,7 @@ jobs:
           context: ./postgresql
           file: ./postgresql/Dockerfile
           push: false
-          tags: ${{ secrets.DOCKER_USERNAME }}/dcor-ckan-docker-postgresql:test-build-only
+          tags: ${{ secrets.DOCKER_USERNAME }}/dcor-postgresql:test-build-only
 
       - name: Build DCOR-CKAN Image
         uses: docker/build-push-action@v2
@@ -38,4 +38,12 @@ jobs:
           context: ./ckan
           file: ./ckan/Dockerfile.dev  # Build dcor image from dev
           push: false
-          tags: ${{ secrets.DOCKER_USERNAME }}/dcor-ckan-docker-ckan:test-build-only
+          tags: ${{ secrets.DOCKER_USERNAME }}/dcor-ckan:test-build-only
+
+      - name: Build MINIO Image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./minio
+          file: ./minio/Dockerfile
+          push: false
+          tags: ${{ secrets.DOCKER_USERNAME }}/dcor-minio:test-build-only
