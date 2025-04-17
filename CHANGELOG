@@ -1,3 +1,5 @@
+0.1.3
+ - enh: specify dcor_control version in setup script
 0.1.2
  - enh: add custom minio image to dcor-ckan environment
 0.1.1
