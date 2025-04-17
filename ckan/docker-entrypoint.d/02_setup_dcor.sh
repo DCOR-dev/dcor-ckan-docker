@@ -1,4 +1,4 @@
 #!/bin/bash
 
-pip3 install dcor_control==0.12.6
+pip3 install --upgrade dcor_control
 dcor inspect --assume-yes
