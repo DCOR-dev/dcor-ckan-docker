@@ -14,9 +14,9 @@ This repository extends the official [CKAN Docker setup](https://github.com/ckan
       - Starts the MinIO server
       - Waits for it to be ready
       - Configures users, buckets, and policies using `mc`
-   - Automatically creates:
-     - A new user
-     - `ckan` bucket with `readwrite` policy
+      - Automatically creates:
+        - A new user
+        - `ckan` bucket with `readwrite` policy
 
     This enables integration of MinIO as a storage backend for CKAN file uploads.
 
