@@ -41,8 +41,8 @@ jobs:
           file: ./nginx/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/dcor-nginx:${{ env.VERSION }}
-            ${{ secrets.DOCKER_USERNAME }}/dcor-nginx:latest
+            ${{ secrets.DOCKER_REPO }}/dcor-nginx:${{ env.VERSION }}
+            ${{ secrets.DOCKER_REPO }}/dcor-nginx:latest
 
       - name: Build and Push PostgreSQL Image
         uses: docker/build-push-action@v2
@@ -51,8 +51,8 @@ jobs:
           file: ./postgresql/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/dcor-postgresql:${{ env.VERSION }}
-            ${{ secrets.DOCKER_USERNAME }}/dcor-postgresql:latest
+            ${{ secrets.DOCKER_REPO }}/dcor-postgresql:${{ env.VERSION }}
+            ${{ secrets.DOCKER_REPO }}/dcor-postgresql:latest
 
       - name: Build and Push CKAN Image
         uses: docker/build-push-action@v2
@@ -61,8 +61,8 @@ jobs:
           file: ./ckan/Dockerfile.dev  # Build dcor image from dev
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/dcor-ckan:${{ env.VERSION }}
-            ${{ secrets.DOCKER_USERNAME }}/dcor-ckan:latest
+            ${{ secrets.DOCKER_REPO }}/dcor-ckan:${{ env.VERSION }}
+            ${{ secrets.DOCKER_REPO }}/dcor-ckan:latest
       
       - name: Build and Push MINIO Image
         uses: docker/build-push-action@v2
@@ -71,5 +71,5 @@ jobs:
           file: ./minio/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/dcor-minio:${{ env.VERSION }}
-            ${{ secrets.DOCKER_USERNAME }}/dcor-minio:latest
+            ${{ secrets.DOCKER_REPO }}/dcor-minio:${{ env.VERSION }}
+            ${{ secrets.DOCKER_REPO }}/dcor-minio:latest
