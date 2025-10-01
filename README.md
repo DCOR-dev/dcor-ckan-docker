@@ -24,11 +24,11 @@ This repository extends the official [CKAN Docker setup](https://github.com/ckan
 ## Docker Images
 All custom images are pushed to Docker Hub:
 
-🔗 [CKAN Image](https://hub.docker.com/repository/docker/raghavaalajangi95/dcor-ckan/tags)
+🔗 [CKAN Image](https://hub.docker.com/repository/docker/mpzpm/dcor-ckan/tags)
 
-🔗 [PostgreSQL Image](https://hub.docker.com/repository/docker/raghavaalajangi95/dcor-postgresql/tags)
+🔗 [PostgreSQL Image](https://hub.docker.com/repository/docker/mpzpm/dcor-postgresql/tags)
 
-🔗 [MinIO Custom Image](https://hub.docker.com/repository/docker/raghavaalajangi95/dcor-minio/tags)
+🔗 [MinIO Custom Image](https://hub.docker.com/repository/docker/mpzpm/dcor-minio/tags)
 
 You can pull them directly using:
 
